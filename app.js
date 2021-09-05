@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const morgan = require('morgan');
 const Campground = require('./models/campground');
 
 mongoose
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(morgan('common'));
 
 // starting the express server
 const port = 8080;
@@ -66,6 +68,5 @@ app.patch('/campgrounds/:id', async (req, res) => {
 app.delete('/campgrounds/:id/delete', async (req, res) => {
   const { id } = req.params;
   await Campground.findByIdAndDelete(id);
-  console.log('deleted');
   res.redirect('/campgrounds');
 });
