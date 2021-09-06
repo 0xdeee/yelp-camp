@@ -4,6 +4,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
+const ejsMate = require('ejs-mate');
+
 const Campground = require('./models/campground');
 
 mongoose
@@ -21,6 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(morgan('common'));
+app.engine('ejs', ejsMate);
 
 // starting the express server
 const port = 8080;

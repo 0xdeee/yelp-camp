@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Campgrounds</title>
-</head>
-
-<body>
-
+<% layout('layouts/boilerplate') -%>
   <h1>Campgrounds</h1>
-  <ul>
-    <% campgrounds.forEach(element=> { %>
-      <li>
-        <a href="/campgrounds/<%= element._id %>">
-          <%= element.title %> (<%= element.location %>)
-        </a>
-      </li>
-      <% }) %>
-  </ul>
-
-</body>
-
-</html>
+  <% campgrounds.forEach(element=> { %>
+    <div class="card mb-3">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="<%= element.image %>" class="img-fluid rounded-start" alt="campground image">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= element.title %>
+            </h5>
+            <p class="card-text">
+              <%= element.description %>
+            </p>
+            <p class="card-text"><small class="text-muted">
+                <%= element.location %>
+              </small></p>
+            <a href="/campgrounds/<%= element._id %>" class="btn btn-primary">view</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }) %>
