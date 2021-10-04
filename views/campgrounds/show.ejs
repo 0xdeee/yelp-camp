@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') -%>
   <div class="row mb-5">
-    <div class="col-6 offset-3">
+    <div class="col-6">
       <div class="card">
         <img src="<%= campground.image %>" class="card-img-top" alt="campground image">
         <div class="card-body">
@@ -26,6 +26,64 @@
           </form> &nbsp;
           <a class="card-link btn btn-info" href="/campgrounds">home</a>
         </div>
+        <div class="card-footer text-muted">
+          2 days ago
+        </div>
       </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Leave a review</h5>
+          <div class="card-text">
+            <form action="/campgrounds/<%= campground._id %>/reviews" method="post" class="needs-validation" novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="rating">Rating</label>
+                <input type="range" class="form-range" min="1" max="5" name="review[rating]" id="rating">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="review">Review</label>
+                <textarea class="form-control" name="review[body]" id="review" rows="3" required></textarea>
+              </div>
+              <button class="btn btn-success" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% if (campground.reviews) { %>
+        <div class="my-3">
+          <h2>Reviews by others</h2>
+          <% campground.reviews.forEach((review)=> { %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="d-flex justify-content-between">
+                    <div class="card-title fw-bold">Rating: <%= review.rating %>
+                    </div>
+                    <div>
+                      <a class="nav-link dropdown-toggle p-0 m-0" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-expanded="false"></a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">
+                            <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
+                              method="post">
+                              <button class="btn btn-sm btn-sm-outline-dark p-0 border-0" type="submit">delete
+                                review</button>
+                            </form>
+                          </a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="card-text">
+                    <%= review.body %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+        </div>
+        <% } %>
     </div>
   </div>
