@@ -24,7 +24,8 @@ const dbReset = async () => {
     const camp = new Campground({
       title: `${randomFromArray(descriptors)} ${randomFromArray(places)}`,
       location: `${cities[random1to1000].city}, ${cities[random1to1000].state}`,
-      image: 'https://source.unsplash.com/collection/483251',
+      image:
+        'https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg',
       description:
         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. A excepturi culpa unde reiciendis eius aspernatur. Facilis nemo id, nihil impedit praesentium tempore reiciendis omnis minus, quaerat nisi accusamus, architecto quisquam?',
       price: Math.floor(Math.random() * 20) + 10,

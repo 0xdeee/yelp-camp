@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
@@ -12,7 +13,6 @@ const { reviewsRouter } = require('./routes/reviews');
 const catchAsync = require('./helpers/catchAsync');
 const ExpressError = require('./helpers/ExpressError');
 
-const mongoose = require('mongoose');
 mongoose
   .connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
@@ -23,7 +23,7 @@ mongoose
 
 const db = mongoose.connection;
 
-// express config ==================================================================================
+// express config
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -44,35 +44,27 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+// custom middleware
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
 });
 
-// routes =========================================================================================
+// routes
+app.get('/', (req, res) => res.redirect('/campgrounds'));
+app.use('/campgrounds', campgroundsRouter); //for campground routes
+app.use('/campgrounds/:id/reviews', reviewsRouter); //for review routes
+app.all('*', (req, res, next) => next(new ExpressError('Page not found', 404))); //for undefined routes
 
-app.get('/', (req, res) => {
-  res.redirect('/campgrounds');
-});
-
-app.use('/campgrounds', campgroundsRouter);
-
-app.use('/campgrounds/:id/reviews', reviewsRouter);
-
-// error handlers =================================================================================
-
-app.all('*', (req, res, next) => {
-  next(new ExpressError('Page not found', 404));
-});
-
+// error handlers
 app.use(function (err, req, res, next) {
   const { statusCode = 500, message = 'Something went wrong' } = err;
   if (!err.message) err.message = 'Something went wrong';
   res.status(statusCode).render('error', { err });
 });
 
-// starting the express server ====================================================================
+// starting the express server
 const port = 8080;
 app.listen(port, () => {
   console.log('server started and listening to 8080');
