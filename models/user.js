@@ -9,6 +9,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+/**
+ * passing passport-local-mongoose to userSchema as a plugin gives lot of feature to User model
+ * that are built by passport.js.
+ * - can be used to authenticate()
+ * - can be used to register()
+ * ...
+ */
 userSchema.plugin(passportLocalMongoose);
 
 module.exports.User = mongoose.model('User', userSchema);

@@ -12,6 +12,7 @@
         <a class="nav-link" href="/campgrounds/new">New Campground</a>
       </div>
       <div class="navbar-nav">
+        <!-- using loggedInUser value in Express.Response.locals to determine which option to show -->
         <% if (!loggedInUser) { %>
           <a class="nav-link" href="/user/register">Register</a>
           <a class="nav-link" href="/user/login">Login</a>

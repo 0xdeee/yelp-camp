@@ -47,4 +47,4 @@ router.delete(
   })
 );
 
-module.exports.reviewsRouter = router;
+module.exports.reviewsRoutes = router;

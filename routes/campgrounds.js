@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { Campground } = require('../models/campground');
 const { campgroundSchema } = require('../schema');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn } = require('../helpers/middleware');
 
 const catchAsync = require('../helpers/catchAsync');
 const ExpressError = require('../helpers/ExpressError');
@@ -88,4 +88,4 @@ router.delete(
   })
 );
 
-module.exports.campgroundsRouter = router;
+module.exports.campgroundsRoutes = router;
