@@ -1,15 +1,20 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
-const path = require('path');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
 const app = express();
 
+const { User } = require('./models/user');
 const { campgroundsRouter } = require('./routes/campgrounds');
 const { reviewsRouter } = require('./routes/reviews');
+const { usersRouter } = require('./routes/user');
 const catchAsync = require('./helpers/catchAsync');
 const ExpressError = require('./helpers/ExpressError');
 
@@ -44,6 +49,13 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // custom middleware
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
@@ -52,9 +64,10 @@ app.use((req, res, next) => {
 });
 
 // routes
-app.get('/', (req, res) => res.redirect('/campgrounds'));
 app.use('/campgrounds', campgroundsRouter); //for campground routes
 app.use('/campgrounds/:id/reviews', reviewsRouter); //for review routes
+app.use('/user', usersRouter); // for user router
+app.get('/', (req, res) => res.redirect('/campgrounds'));
 app.all('*', (req, res, next) => next(new ExpressError('Page not found', 404))); //for undefined routes
 
 // error handlers
