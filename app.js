@@ -1,16 +1,20 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
-const path = require('path');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
 const app = express();
 
-const { campgroundsRouter } = require('./routes/campgrounds');
-const { reviewsRouter } = require('./routes/reviews');
-const catchAsync = require('./helpers/catchAsync');
+const { User } = require('./models/user');
+const { campgroundsRoutes } = require('./routes/campgrounds');
+const { reviewsRoutes } = require('./routes/reviews');
+const { usersRoutes } = require('./routes/user');
 const ExpressError = require('./helpers/ExpressError');
 
 mongoose
@@ -44,17 +48,31 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-// custom middleware
+// auth config using passport.js
+app.use(passport.initialize());
+app.use(passport.session());
+// invoking authenticate() in User model created by passport-local-mongoose
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// common middleware
 app.use((req, res, next) => {
+  // req.user set by passport after login, storing value in locals
+  // to check if user is loggedIn in ejs templates
+  res.locals.loggedInUser = req.user;
+  // adding flash values in locals to fetch it in ejs templates
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
 });
 
 // routes
-app.get('/', (req, res) => res.redirect('/campgrounds'));
-app.use('/campgrounds', campgroundsRouter); //for campground routes
-app.use('/campgrounds/:id/reviews', reviewsRouter); //for review routes
+app.use('/campgrounds', campgroundsRoutes); //for campground routes
+app.use('/campgrounds/:id/reviews', reviewsRoutes); //for review routes
+app.use('/user', usersRoutes); // for user router
+app.get('/', (req, res) => res.redirect('/campgrounds')); // home route
 app.all('*', (req, res, next) => next(new ExpressError('Page not found', 404))); //for undefined routes
 
 // error handlers

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 
-const Campground = require('../models/campground');
-const Review = require('../models/review');
+const { Campground } = require('../models/campground');
+const { Review } = require('../models/review');
 const { reviewSchema } = require('../schema');
 
 const catchAsync = require('../helpers/catchAsync');
@@ -47,4 +47,4 @@ router.delete(
   })
 );
 
-module.exports.reviewsRouter = router;
+module.exports.reviewsRoutes = router;
