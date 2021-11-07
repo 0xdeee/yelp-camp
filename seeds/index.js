@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Campground = require('../models/campground');
+const { Campground } = require('../models/campground');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelper');
 
@@ -29,6 +29,7 @@ const dbReset = async () => {
       description:
         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. A excepturi culpa unde reiciendis eius aspernatur. Facilis nemo id, nihil impedit praesentium tempore reiciendis omnis minus, quaerat nisi accusamus, architecto quisquam?',
       price: Math.floor(Math.random() * 20) + 10,
+      author: '618690e5f95098f9872c13c8', // add a random user here while creating seed data
     });
     await camp.save();
   }
