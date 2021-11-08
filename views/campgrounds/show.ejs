@@ -47,9 +47,21 @@
             <div class="card-text">
               <form action="/campgrounds/<%= campground._id %>/reviews" method="post" class="needs-validation"
                 novalidate>
-                <div class="mb-3">
-                  <label class="form-label" for="rating">Rating</label>
-                  <input type="range" class="form-range" min="1" max="5" name="review[rating]" id="rating">
+                <div>
+                  <fieldset class="starability-basic">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked
+                      aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="review">Review</label>
@@ -69,7 +81,8 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="d-flex justify-content-between">
-                        <div class="card-title fw-bold">Rating: <%= review.rating %>
+                        <div class="card-title fw-bold">
+                          <%= review.author.username %>
                         </div>
                         <!-- checks if logged in user is author of review to show delete review button -->
                         <% if (review.author.equals(loggedInUser)) { %>
@@ -92,12 +105,13 @@
                     </div>
                     <div class="row">
                       <div class="card-text">
+                        <p class="starability-result" data-rating="<%= review.rating %>">
+                          Rated: <%= review.rating %> stars
+                        </p>
+                      </div>
+                      <div class="card-text">
                         <%= review.body %>
                       </div>
-                    </div>
-                    <div class="text-muted mt-2">
-                      <span>review posted by </span>
-                      <%= review.author.username %>
                     </div>
                   </div>
                 </div>
