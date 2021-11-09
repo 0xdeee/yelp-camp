@@ -31,6 +31,11 @@ module.exports.getSpecificCampground = async (req, res) => {
 
 module.exports.createNewCampground = async (req, res, next) => {
   const campground = new Campground(req.body.campground);
+  // getting the array of uploaded image metadata from req.files provided by multer and adding it to model
+  campground.images = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
   // before creating campground, passing loggedIn user's _id as author field ref
   campground.author = req.user._id;
   await campground.save();
