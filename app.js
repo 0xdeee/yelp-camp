@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+} // configures environment variable using dotenv to .env file when environment is not prod
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
