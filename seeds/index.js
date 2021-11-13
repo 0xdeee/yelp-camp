@@ -26,8 +26,12 @@ const dbReset = async () => {
       location: `${cities[random1to1000].city}, ${cities[random1to1000].state}`,
       images: [
         {
-          url: 'https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Campground.jpg',
-          filename: 'campground',
+          url: 'https://res.cloudinary.com/spaceorphan99-cloudinary-clouds/image/upload/v1636475989/yelp-camp/exigqgouioqmzo8p8zfl.jpg',
+          filename: 'exigqgouioqmzo8p8zfl',
+        },
+        {
+          url: 'https://res.cloudinary.com/spaceorphan99-cloudinary-clouds/image/upload/v1636475761/yelp-camp/adeiryxmzixnuofapbnt.jpg',
+          filename: 'adeiryxmzixnuofapbnt',
         },
       ],
       description:
