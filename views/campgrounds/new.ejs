@@ -13,10 +13,6 @@
           <input class="form-control" type="text" name="campground[location]" id="location" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="image">Image</label>
-          <input class="form-control" type="file" name="campground[image]" id="image" multiple required>
-        </div>
-        <div class="mb-3">
           <label class="form-label" for="price">Price</label>
           <div class="input-group mb-3">
             <span class="input-group-text">$</span>
@@ -28,6 +24,10 @@
         <div class="mb-3">
           <label class="form-label" for="description">Description</label>
           <textarea class="form-control" name="campground[description]" id="description" rows="3" required></textarea>
+        </div>
+        <div class="mb-3 custom-file">
+          <label class="form-label custom-file-label" for="image">Image</label>
+          <input class="form-control" type="file" name="campground[image]" id="image" multiple required>
         </div>
         <button class="btn btn-success" type="submit">create</button>
       </form>

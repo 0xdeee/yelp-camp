@@ -2,15 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { Review } = require('./review');
 
+// defining image schema separately to add mongo virtual to the field
+const imageSchema = new Schema({
+  url: String,
+  filename: String,
+});
+
+imageSchema.virtual('thumbnail').get(function () {
+  return this.url.replace('/upload', '/upload/w_200'); // to get image thumbnail from cloudinary
+});
+
 const campgroundSchema = new Schema({
   title: String,
   price: Number,
-  images: [
-    {
-      url: String,
-      filename: String,
-    },
-  ],
+  images: [imageSchema],
   description: String,
   location: String,
   author: {

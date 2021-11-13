@@ -2,7 +2,8 @@
   <div class="row">
     <h1 class="text-center">Edit Campground</h1>
     <div class="col-6 offset-3">
-      <form action="/campgrounds/<%= campground._id %>?_method=PATCH" method="POST" class="needs-validation" novalidate>
+      <form action="/campgrounds/<%= campground._id %>?_method=PATCH" method="POST" class="needs-validation"
+        enctype="multipart/form-data" novalidate>
         <div class="mb-3">
           <label class="form-label" for="title">Title</label>
           <input class="form-control" type="text" name="campground[title]" id="title" value="<%= campground.title %>"
@@ -12,11 +13,6 @@
           <label class="form-label" for="location">Location</label>
           <input class="form-control" type="text" name="campground[location]" id="location"
             value="<%= campground.location %>" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="image">Image</label>
-          <input class="form-control" type="url" name="campground[image]" id="image" value="<%= campground.image %>"
-            required>
         </div>
         <div class="mb-3">
           <label class="form-label" for="price">Price</label>
@@ -31,6 +27,19 @@
           <label class="form-label" for="description">Description</label>
           <textarea class="form-control" type="text" id="description" name="campground[description]"
             required><%= campground.description%></textarea>
+        </div>
+        <div class="mb-3 custom-file">
+          <label class="form-label custom-file-label" for="image">add images</label>
+          <input class="form-control" type="file" name="campground[image]" id="image" multiple>
+        </div>
+        <div class="mb-3">
+          <% campground.images.forEach((image, index)=> { %>
+            <img src="<%= image.thumbnail %>" class="img-thumbnail" alt=" ... ">
+            <div class="form-check-inline">
+              <input type="checkbox" name="deleteImages[]" id="image-<%= index %>" value="<%= image.filename %>">
+            </div>
+            <label for="image-<%= index %>">delete?</label>
+            <% }) %>
         </div>
         <button class="btn btn-primary" type="submit">Edit</button>
       </form>

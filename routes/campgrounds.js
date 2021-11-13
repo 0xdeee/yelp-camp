@@ -30,6 +30,7 @@ router
   .patch(
     isLoggedIn,
     isAuthor, // authorization middleware
+    upload.array('campground[image]', 5), // parsing form data with enctype="multipart/form-data"
     validateCampground,
     catchAsync(campgroundsController.updateCampgrounds)
   );
