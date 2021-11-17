@@ -9,7 +9,7 @@ const imageSchema = new Schema({
 });
 
 imageSchema.virtual('thumbnail').get(function () {
-  return this.url.replace('/upload', '/upload/w_200'); // to get image thumbnail from cloudinary
+  return this.url.replace('/upload', '/upload/w_150'); // to get image thumbnail from cloudinary
 });
 
 const campgroundSchema = new Schema({

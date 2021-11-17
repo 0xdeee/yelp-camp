@@ -1,5 +1,9 @@
 const { Campground } = require('../models/campground');
 const { cloudinary } = require('../cloudinary');
+const mapBoxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geoCodingService = mapBoxGeoCoding({
+  accessToken: process.env.MAPBOX_TOKEN,
+});
 
 module.exports.getAllCampgrounds = async (req, res) => {
   const campgrounds = await Campground.find({});
@@ -31,17 +35,24 @@ module.exports.getSpecificCampground = async (req, res) => {
 };
 
 module.exports.createNewCampground = async (req, res, next) => {
-  const campground = new Campground(req.body.campground);
-  // getting the array of uploaded image metadata from req.files provided by multer and adding it to model
-  campground.images = req.files.map((file) => ({
-    url: file.path,
-    filename: file.filename,
-  }));
-  // before creating campground, passing loggedIn user's _id as author field ref
-  campground.author = req.user._id;
-  await campground.save();
-  req.flash('success', 'successfully created a new campground');
-  res.redirect(`/campgrounds/${campground._id}`);
+  const campGroundGeoCode = await geoCodingService
+    .forwardGeocode({
+      query: 'chennai, india',
+      limit: 1,
+    })
+    .send();
+  res.send(campGroundGeoCode.body.features);
+  // const campground = new Campground(req.body.campground);
+  // // getting the array of uploaded image metadata from req.files provided by multer and adding it to model
+  // campground.images = req.files.map((file) => ({
+  //   url: file.path,
+  //   filename: file.filename,
+  // }));
+  // // before creating campground, passing loggedIn user's _id as author field ref
+  // campground.author = req.user._id;
+  // await campground.save();
+  // req.flash('success', 'successfully created a new campground');
+  // res.redirect(`/campgrounds/${campground._id}`);
 };
 
 module.exports.renderEditCampgroundsForm = async (req, res) => {
