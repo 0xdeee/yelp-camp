@@ -1,6 +1,11 @@
 <% layout('layouts/boilerplate') -%>
+  <script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const campground = '<%-JSON.stringify(campground)%>';
+  </script>
   <div class="row mb-5">
     <div class="col-6">
+      <div id='map' style='width: 100%; height: 300px;'></div>
       <div class="card">
         <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
@@ -142,3 +147,5 @@
           </div>
     </div>
   </div>
+
+  <script src="/js/showPageMap.js"></script>

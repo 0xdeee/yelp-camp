@@ -37,22 +37,23 @@ module.exports.getSpecificCampground = async (req, res) => {
 module.exports.createNewCampground = async (req, res, next) => {
   const campGroundGeoCode = await geoCodingService
     .forwardGeocode({
-      query: 'chennai, india',
+      query: req.body.campground.location,
       limit: 1,
     })
     .send();
-  res.send(campGroundGeoCode.body.features);
-  // const campground = new Campground(req.body.campground);
-  // // getting the array of uploaded image metadata from req.files provided by multer and adding it to model
-  // campground.images = req.files.map((file) => ({
-  //   url: file.path,
-  //   filename: file.filename,
-  // }));
-  // // before creating campground, passing loggedIn user's _id as author field ref
-  // campground.author = req.user._id;
-  // await campground.save();
-  // req.flash('success', 'successfully created a new campground');
-  // res.redirect(`/campgrounds/${campground._id}`);
+  const campground = new Campground(req.body.campground);
+  // getting the array of uploaded image metadata from req.files provided by multer and adding it to model
+  campground.images = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
+  // before creating campground, passing loggedIn user's _id as author field ref
+  campground.author = req.user._id;
+  campground.geometry = campGroundGeoCode.body.features[0].geometry;
+  await campground.save();
+  console.log(campground);
+  req.flash('success', 'successfully created a new campground');
+  res.redirect(`/campgrounds/${campground._id}`);
 };
 
 module.exports.renderEditCampgroundsForm = async (req, res) => {

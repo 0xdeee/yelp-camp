@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const { Campground } = require('../models/campground');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelper');
+const mapBoxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geoCodingService = mapBoxGeoCoding({
+  accessToken:
+    'pk.eyJ1Ijoic3BhY2VvcnBoYW45OSIsImEiOiJja3czc3F1ZjkwYTZnMzFudjFxdzUxczl6In0.rs9y9V_xrgrN8bsjs4mzPA',
+});
 
 mongoose
   .connect('mongodb://localhost:27017/yelp-camp', {
@@ -21,9 +26,17 @@ const dbReset = async () => {
     const random1to1000 = Math.floor(Math.random() * 1000);
     const randomFromArray = (array) =>
       array[Math.floor(Math.random() * array.length)];
+    const campGroundLocation = `${cities[random1to1000].city}, ${cities[random1to1000].state}`;
+    const campGroundGeoCode = await geoCodingService
+      .forwardGeocode({
+        query: campGroundLocation,
+        limit: 1,
+      })
+      .send();
     const camp = new Campground({
       title: `${randomFromArray(descriptors)} ${randomFromArray(places)}`,
-      location: `${cities[random1to1000].city}, ${cities[random1to1000].state}`,
+      location: campGroundLocation,
+      geometry: campGroundGeoCode.body.features[0].geometry,
       images: [
         {
           url: 'https://res.cloudinary.com/spaceorphan99-cloudinary-clouds/image/upload/v1636475989/yelp-camp/exigqgouioqmzo8p8zfl.jpg',
