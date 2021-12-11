@@ -33,12 +33,12 @@ const dbReset = async () => {
       },
       images: [
         {
-          url: 'https://res.cloudinary.com/spaceorphan99-cloudinary-clouds/image/upload/v1636475989/yelp-camp/exigqgouioqmzo8p8zfl.jpg',
-          filename: 'exigqgouioqmzo8p8zfl',
+          url: 'https://res.cloudinary.com/dlsvm1iii/image/upload/v1639233960/yelp-camp/frs06rymlk2gt96tcxfe.jpg',
+          filename: 'frs06rymlk2gt96tcxfe',
         },
         {
-          url: 'https://res.cloudinary.com/spaceorphan99-cloudinary-clouds/image/upload/v1636475761/yelp-camp/adeiryxmzixnuofapbnt.jpg',
-          filename: 'adeiryxmzixnuofapbnt',
+          url: 'https://res.cloudinary.com/dlsvm1iii/image/upload/v1639233960/yelp-camp/ahvc0iegsvnqorrqwbru.jpg',
+          filename: 'ahvc0iegsvnqorrqwbru',
         },
       ],
       description:
