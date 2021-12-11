@@ -4,7 +4,8 @@
   "description": "A simple geo-location based listing of all the campgrounds with yelp style review features. Course final project from Web Developer Boot camp 2021 (Udemy).",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
+    "loc": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

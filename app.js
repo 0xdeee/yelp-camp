@@ -151,7 +151,7 @@ app.use(function (err, req, res, next) {
 });
 
 // starting the express server
-const port = 8080;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log('server started and listening to 8080');
+  console.log(`server started and listening to ${port}`);
 });
