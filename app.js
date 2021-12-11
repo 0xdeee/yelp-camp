@@ -11,6 +11,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const app = express();
 
@@ -50,6 +51,11 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(
+  mongoSanitize({
+    replaceWith: '_',
+  })
+); // to protect against mongo injection
 
 // auth config using passport.js
 app.use(passport.initialize());
@@ -75,7 +81,7 @@ app.use((req, res, next) => {
 app.use('/campgrounds', campgroundsRoutes); //for campground routes
 app.use('/campgrounds/:id/reviews', reviewsRoutes); //for review routes
 app.use('/user', usersRoutes); // for user router
-app.get('/', (req, res) => res.redirect('/campgrounds')); // home route
+app.get('/', (req, res) => res.render('home')); // home route
 app.all('*', (req, res, next) => next(new ExpressError('Page not found', 404))); //for undefined routes
 
 // error handlers

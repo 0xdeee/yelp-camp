@@ -1,15 +1,10 @@
 <% layout('layouts/boilerplate') -%>
-  <script>
-    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
-    const campground = '<%-JSON.stringify(campground)%>';
-  </script>
   <div class="row mb-5">
     <div class="col-6">
-      <div id='map' style='width: 100%; height: 300px;'></div>
       <div class="card">
         <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
-            <!-- adds active class to onlt index 0 of array of images -->
+            <!-- adds active class to only index 0 of array of images -->
             <% campground.images.forEach((image, index)=> { %>
               <div class="carousel-item <%= (index === 0) ? " active" : "" %>">
                 <img src="<%= image.url %> " class="d-block w-100 h-50" alt="campground image">
@@ -66,6 +61,7 @@
       </div>
     </div>
     <div class="col-6">
+      <div id='map' style='width: 100%; height: 320px;'></div>
       <!-- check to hide review box for not logged in users -->
       <% if (loggedInUser) { %>
         <div class="card">
@@ -147,5 +143,8 @@
           </div>
     </div>
   </div>
-
+  <script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const campground = '<%-JSON.stringify(campground)%>';
+  </script>
   <script src="/js/showPageMap.js"></script>

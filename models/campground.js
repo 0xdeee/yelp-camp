@@ -12,33 +12,46 @@ imageSchema.virtual('thumbnail').get(function () {
   return this.url.replace('/upload', '/upload/w_150'); // to get image thumbnail from cloudinary
 });
 
-const campgroundSchema = new Schema({
-  title: String,
-  price: Number,
-  images: [imageSchema],
-  description: String,
-  location: String,
-  geometry: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      required: true,
+const campgroundSchema = new Schema(
+  {
+    title: String,
+    price: Number,
+    images: [imageSchema],
+    description: String,
+    location: String,
+    geometry: {
+      type: {
+        type: String,
+        enum: ['Point'],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
     },
-    coordinates: {
-      type: [Number],
-      required: true,
-    },
-  },
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  reviews: [
-    {
+    author: {
       type: Schema.Types.ObjectId,
-      ref: 'Review',
+      ref: 'User',
     },
-  ],
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
+  },
+  { toJSON: { virtuals: true } } // to make virtual properties stay while converting doc to json
+);
+
+campgroundSchema.virtual('properties.popUpMarkup').get(function () {
+  return `<strong>${
+    this.title
+  }</strong><br><p>${this.description.substring(0, 100)}...</p>`;
+});
+
+campgroundSchema.virtual('properties.campgroundUrl').get(function () {
+  return `${this._id}`;
 });
 
 // mongoose 'post middleware to delete all reviews inside a campgrounds once the campground itself is deleted
