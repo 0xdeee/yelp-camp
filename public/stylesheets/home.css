@@ -14,7 +14,7 @@ body {
 
 .nav-link {
   padding: 0.25rem 0.25rem 0;
-  font-weight: 600;
+  font-weight: 500;
   color: rgba(255, 255, 255, 0.5);
   margin-left: 1rem;
   border-bottom: 0.25rem solid transparent;
@@ -27,6 +27,8 @@ body {
 
 .nav-link.active {
   color: white;
+  border-bottom: 0.25rem solid transparent;
+  border-bottom-color: rgba(255, 255, 255, 0.5);
 }
 
 .btn-secondary,
