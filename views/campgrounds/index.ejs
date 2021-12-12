@@ -25,6 +25,9 @@
     <% }) %>
       <script>
         const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const clusterMapCenterLong = '<%-process.env.CLUSTER_MAP_C_LONG%>' || -103.5917;
+        const clusterMapCenterLat = '<%-process.env.CLUSTER_MAP_C_LAT%>' || 40.6699;
+        [,]
         const campgroundsList = { features: JSON.parse('<%- JSON.stringify(campgrounds) %>') };
       </script>
       <script src="/js/clusterMap.js"></script>
